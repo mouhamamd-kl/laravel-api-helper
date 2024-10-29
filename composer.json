@@ -1,6 +1,6 @@
 {
-    "name": "mouhammadkl/api-helpers",
-    "description": "A Starting Api Laravel helper",
+    "name": "mouhammadkl/basic-api-helpers",
+    "description": "A Starting Api Laravel Helper",
     "type": "library",
     "license": "MIT",
     "autoload": {

@@ -1,0 +1,24 @@
+{
+    "name": "kl/api-helpers",
+    "description": "A Starting Api Laravel helper",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Kl\\ApiHelpers\\": "src/"
+        }
+    }, "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0|^10.0"
+    },
+    "authors": [
+        {
+            "name": "Mouhammad KL",
+            "email": "mouhammadk44@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
+
+
+

@@ -1,0 +1,92 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ rootNamespace }}Helpers\ApiResponse;
+use {{ rootNamespace }}Http\Requests\{{ model }}Request;
+use {{ rootNamespace }}Http\Resources\{{ model }}Resource;
+use {{ namespacedModel }};
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $items = {{ model }}::get();
+        if (count($items) > 0) {
+            return ApiResponse::sendResponse(data: {{ model }}Resource::collection($items), code: 200, msg: '{{ model }}s Received Successfully');
+        }
+        return ApiResponse::sendResponse(code: 200, data: [], msg: 'No {{ model }}s found');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{ model }}Request $request)
+    {
+        $data = $request->validated();
+        $item = {{ model }}::create($data);
+        if ($item) {
+            return ApiResponse::sendResponse(data: new {{ model }}Resource($item), code: 200, msg: '{{ model }} Created Successfully');
+        }
+        return ApiResponse::sendResponse(code: 200, data: [], msg: 'Error In Creating {{ model }}');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $item = {{ model }}::find($id);
+        if ($item) {
+            return ApiResponse::sendResponse(code: 200, msg: '{{ model }} Received Successfully', data: new {{ model }}Resource($item));
+        }
+        return ApiResponse::sendResponse(code: 200, msg: '{{ model }} Not Found', data: []);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{ model }}Request $request, $id)
+    {
+        $data = $request->validated();
+        $item = {{ model }}::find($id);
+        if ($item) {
+            $item->update($data);
+            return ApiResponse::sendResponse(code: 200, msg: '{{ model }} Updated Successfully', data: new {{ model }}Resource($item));
+        }
+        return ApiResponse::sendResponse(code: 200, msg: '{{ model }} Not Found', data: []);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $item = {{ model }}::find($id);
+        if ($item) {
+            $item->delete();
+            return ApiResponse::sendResponse(code: 200, msg: '{{ model }} Deleted Successfully', data: []);
+        }
+        return ApiResponse::sendResponse(code: 200, msg: '{{ model }} Not Found', data: []);
+    }
+}

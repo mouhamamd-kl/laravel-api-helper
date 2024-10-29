@@ -27,7 +27,11 @@ class ApiHelperProvider extends ServiceProvider
     {
         // Publish stubs for customization
         $this->publishes([
-            __DIR__ . '/Stubs/custom-request.stub' => base_path('stubs/api/custom-request.stub'),
+            __DIR__ . '/stubs/api/custom-request.stub' => base_path('stubs/api/custom-request.stub'),
+            __DIR__ . '/stubs/api/custom-controller.stub' => base_path('stubs/api/custom-controller.stub'),
+            __DIR__ . '/stubs/api/custom-model.stub' => base_path('stubs/api/custom-model.stub'),
+            __DIR__ . '/stubs/helpers/api-response.stub' => base_path('stubs/helpers/api-response.stub'),
+            __DIR__ . '/stubs/helpers/pagination-helper.stub' => base_path('stubs/helpers/pagination-helper.stub'),
             // Add other stubs here if needed
         ], 'stubs');
     }

@@ -1,0 +1,51 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Helpers\ApiResponse;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+
+class {{ class }} extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        return [
+            // Add dynamic rules here or populate on generation
+        ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function failedValidation(Validator $validator): void
+    {
+        if ($this->is('api/*')) {
+            $message = trans('validation.validation_errors'); // Get message from language file
+            $response = ApiResponse::sendResponse(code: 200, msg: $message, data: [$validator->errors()]);
+            throw new ValidationException($validator, $response);
+        }
+    }
+}

@@ -1,0 +1,57 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
+use {{ rootNamespace }}Helpers\ApiResponse;
+
+class {{ class }}
+{
+    /**
+     * Get the name of the model.
+     *
+     * @param Model $model
+     * @return string
+     */
+    protected static function getModelName(Model $model): string
+    {
+        return class_basename($model); // Get the model name without the namespace
+    }
+
+    /**
+     * Generate a paginated response.
+     *
+     * @param mixed $originData
+     * @param string $resourceClass
+     * @param string $modelClass
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function paginateResponse($originData, string $resourceClass, string $modelClass)
+    {
+        $name = static::getModelName(new $modelClass()); // Instantiate model to get the name
+        $resourceCollection = new $resourceClass([]); // Placeholder resource collection
+
+        if (count($originData) > 0) {
+            if ($originData instanceof \Illuminate\Pagination\LengthAwarePaginator && $originData->total() > $originData->perPage()) {
+                $data = [
+                    'records' => $resourceCollection::collection($originData),
+                    'pagination_links' => [
+                        'current_page' => $originData->currentPage(),
+                        'per_page' => $originData->perPage(),
+                        'total' => $originData->total(),
+                        'links' => [
+                            'first' => $originData->url(1),
+                            'last' => $originData->url($originData->lastPage()),
+                        ]
+                    ]
+                ];
+            } else {
+                $data = $resourceCollection::collection($originData);
+            }
+            return ApiResponse::sendResponse(code: 200, msg: '{{ modelName }} retrieved successfully', data: $data);
+        }
+
+        return ApiResponse::sendResponse(code: 200, msg: "$name Not Found", data: []);
+    }
+}

@@ -19,7 +19,7 @@ class MakeApiController extends Command
      *
      * @var string
      */
-    protected $description = 'Create an api controller file from a stub';
+    protected $description = 'Create a new api controller class';
 
     /**
      * Execute the console command.

@@ -19,7 +19,7 @@ class MakeApiRequest extends Command
      *
      * @var string
      */
-    protected $description = 'Create an api FormRequest file from a stub';
+    protected $description = 'Create a new api FormRequest';
 
     /**
      * Execute the console command.

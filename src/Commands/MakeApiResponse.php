@@ -19,7 +19,7 @@ class MakeApiResponse extends Command
      *
      * @var string
      */
-    protected $description = 'Create the ApiResponse file from a stub';
+    protected $description = 'Create a new ApiResponse class';
 
     /**
      * Execute the console command.

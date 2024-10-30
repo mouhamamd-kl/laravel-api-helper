@@ -19,7 +19,7 @@ class MakeApiModel extends Command
      *
      * @var string
      */
-    protected $description = 'Create a model file from a stub with optional related files';
+    protected $description = 'Create a new model  with options to create a full model';
 
     /**
      * Execute the console command.

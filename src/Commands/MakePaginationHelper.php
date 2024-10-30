@@ -19,7 +19,7 @@ class MakePaginationHelper extends Command
      *
      * @var string
      */
-    protected $description = 'Create the PaginationHelper file from a stub';
+    protected $description = 'Create a new PaginationHelper Class';
 
     /**
      * Execute the console command.

@@ -1,24 +1,31 @@
 {
-  "name": "mouhammadkl/basic-api-helpers",
-  "description": "A Starting Api Laravel Helper",
-  "type": "library",
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "mouhammadKL\\ApiHelper\\": "src/"
-    }
-  },
-  "require": {
-    "php": "^8.0",
-    "illuminate/support": "^9.0|^10.0|^11.0"
-  },
-  "authors": [
-    {
-      "name": "Mouhammad KL",
-      "email": "mouhammadk44@gmail.com"
-    }
-  ],
-  "version": "1.0.0",
-  "minimum-stability": "stable",
-  "prefer-stable": true
+    "name": "mouhammadkl/basic-api-helpers",
+    "description": "A Starting Api Laravel Helper",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "mouhammadkl\\ApiHelper\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0|^10.0|^11.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "mouhammadkl\\ApiHelper\\ApiHelperProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Mouhammad KL",
+            "email": "mouhammadk44@gmail.com"
+        }
+    ]
 }

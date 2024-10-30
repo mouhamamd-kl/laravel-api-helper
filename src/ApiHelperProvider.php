@@ -25,6 +25,15 @@ class ApiHelperProvider extends ServiceProvider
 
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MakePaginationHelper::class,
+                MakeApiResponse::class,
+                MakeApiController::class,
+                MakeApiModel::class,
+                MakeApiRequest::class,
+            ]);
+        }
         // Publish stubs for customization
         $this->publishes([
             __DIR__ . '/stubs/api/custom-request.stub' => base_path('stubs/api/custom-request.stub'),

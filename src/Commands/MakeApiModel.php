@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace mouhammadKL\ApiHelper\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -33,8 +33,8 @@ class MakeApiModel extends Command
         $namespace = $this->option('namespace');
 
         // Check or create helpers
-        $this->ensureHelperExists('ApiResponse', base_path('stubs/helpers/api-response.stub'), app_path('Helpers/ApiResponse.php'));
-        $this->ensureHelperExists('PaginationHelper', base_path('stubs/helpers/pagination-helper.stub'), app_path('Helpers/PaginationHelper.php'));
+        // $this->ensureHelperExists('api-response', base_path('stubs/helpers/api-response.stub'), app_path('Helpers/ApiResponse.php'));
+        // $this->ensureHelperExists('pagination-helper', base_path('stubs/helpers/pagination-helper.stub'), app_path('Helpers/PaginationHelper.php'));
 
         // If --all is set, enable all options
         $createController = $this->option('controller') || $this->option('all');
@@ -45,7 +45,7 @@ class MakeApiModel extends Command
         $createResource = $this->option('resource') || $this->option('all');
 
         // Define paths
-        $stubPath = base_path('stubs/api/custom-model.api.stub'); 
+        $stubPath = base_path('stubs/api/custom-model.api.stub');
         $targetPath = app_path("Models/{$name}.php");
 
         // Check if the model already exists
@@ -149,9 +149,7 @@ class MakeApiModel extends Command
     protected function ensureHelperExists(string $helperName, string $stubPath, string $targetPath): void
     {
         if (!File::exists($targetPath)) {
-            File::ensureDirectoryExists(dirname($targetPath));
-            File::copy($stubPath, $targetPath);
-            $this->info("{$helperName} helper created at: {$targetPath}");
+            $this->call('php artisan make:api-response');
         }
     }
 }

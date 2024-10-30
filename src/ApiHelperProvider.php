@@ -1,13 +1,13 @@
 <?php
 
-namespace YourVendorName\YourPackageName;
+namespace mouhammadKL\ApiHelper;
 
-use App\Console\Commands\MakeApiController;
-use App\Console\Commands\MakeApiModel;
-use App\Console\Commands\MakeApiRequest;
-use App\Console\Commands\MakeApiResponse;
-use App\Console\Commands\MakePaginationHelper;
 use Illuminate\Support\ServiceProvider;
+use mouhammadKL\ApiHelper\Commands\MakeApiController;
+use mouhammadKL\ApiHelper\Commands\MakePaginationHelper;
+use mouhammadKL\ApiHelper\Commands\MakeApiResponse;
+use mouhammadKL\ApiHelper\Commands\MakeApiModel;
+use mouhammadKL\ApiHelper\Commands\MakeApiRequest;
 
 class ApiHelperProvider extends ServiceProvider
 {

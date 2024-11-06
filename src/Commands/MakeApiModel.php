@@ -33,8 +33,8 @@ class MakeApiModel extends Command
         $namespace = $this->option('namespace');
 
         // Check or create helpers
-        // $this->ensureHelperExists('api-response', base_path('stubs/helpers/api-response.stub'), app_path('Helpers/ApiResponse.php'));
-        // $this->ensureHelperExists('pagination-helper', base_path('stubs/helpers/pagination-helper.stub'), app_path('Helpers/PaginationHelper.php'));
+        $this->ensureHelperExists('api-response', __DIR__ . '/../stubs/helpers/api-response.stub', app_path('Helpers/ApiResponse.php'));
+        $this->ensureHelperExists('pagination-helper', __DIR__ . '/../stubs/helpers/pagination-helper.stub', app_path('Helpers/PaginationHelper.php'));
 
         // If --all is set, enable all options
         $createController = $this->option('controller') || $this->option('all');
@@ -45,7 +45,8 @@ class MakeApiModel extends Command
         $createResource = $this->option('resource') || $this->option('all');
 
         // Define paths
-        $stubPath = base_path('stubs/api/custom-model.api.stub');
+        $commandsDir = __DIR__;
+        $stubPath = $commandsDir . '/../stubs/api/custom-model.api.stub';
         $targetPath = app_path("Models/{$name}.php");
 
         // Check if the model already exists

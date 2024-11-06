@@ -35,7 +35,8 @@ class MakePaginationHelper extends Command
         }
 
         // Define paths
-        $stubPath = base_path('stubs/helpers/pagination-helper.stub');
+        $commandsDir = __DIR__;
+        $stubPath = $commandsDir . '/../stubs/helpers/pagination-helper.stub';
         $targetPath = app_path("Helpers/PaginationHelper.php");
 
         // Ensure the target directory exists

@@ -32,12 +32,14 @@ class MakeApiController extends Command
         $model = $this->argument('model');
         $namespace = $this->option('namespace');
         $namespacedModel = "App\\Models\\$model"; // Adjust this as necessary for your structure
-        $stubPath = base_path('stubs/api/custom-controller.api.stub'); // Path to your stub file
+        $commandsDir = __DIR__;
+        $stubPath = $commandsDir . '/../stubs/api/custom-controller.api.stub';
         $targetPath = app_path("Http/Controllers/{$model}Controller.php");
 
         // Check or create helpers
-        $this->ensureHelperExists('ApiResponse', base_path('stubs/helpers/api-response.stub'), app_path('Helpers/ApiResponse.php'));
-        $this->ensureHelperExists('PaginationHelper', base_path('stubs/helpers/pagination-helper.stub'), app_path('Helpers/PaginationHelper.php'));
+
+        $this->ensureHelperExists('ApiResponse', __DIR__ . '/../stubs/helpers/api-response.stub', app_path('Helpers/ApiResponse.php'));
+        $this->ensureHelperExists('PaginationHelper', __DIR__ . '/../stubs/helpers/pagination-helper.stub', app_path('Helpers/PaginationHelper.php'));
 
 
         // Check if the controller already exists

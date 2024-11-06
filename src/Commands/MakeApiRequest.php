@@ -33,7 +33,9 @@ class MakeApiRequest extends Command
         $className = $name;
 
         // Define paths
-        $stubPath = base_path('stubs/api/custom-request.api.stub');
+        $commandsDir = __DIR__;
+        $stubPath = $commandsDir . '/../stubs/helpers/custom-request.api.stub';
+        
         $targetPath = app_path("Http/Requests/Api/{$className}.php");
 
         // Ensure the target directory exists

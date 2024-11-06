@@ -29,8 +29,9 @@ class MakeApiResponse extends Command
     public function handle()
     {
         // Define paths
-        $stubPath = base_path('stubs/helpers/api-response.stub');
-        $targetPath = app_path("Helpers/ApiResponse.php");
+        $commandsDir = __DIR__;
+        $stubPath = $commandsDir . '/../stubs/helpers/api-response.stub';
+        $targetPath = app_path("Helpers\ApiResponse.php");
 
         // Ensure the target directory exists
         File::ensureDirectoryExists(app_path('Helpers'));

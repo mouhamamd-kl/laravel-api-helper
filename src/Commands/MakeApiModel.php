@@ -12,7 +12,7 @@ class MakeApiModel extends Command
      *
      * @var string
      */
-    protected $signature = 'make:api-model {name} {--namespace=App\Models} {--controller} {--request} {--migration} {--seeder} {--factory} {--resource} {--all}';
+        protected $signature = 'make:api-model {name} {--namespace=App\Models} {--controller} {--request} {--migration} {--factory} {--seeder} {--resource} {--all}';
 
     /**
      * The console command description.
@@ -37,6 +37,13 @@ class MakeApiModel extends Command
         $this->ensureHelperExists('pagination-helper', __DIR__ . '/../stubs/helpers/pagination-helper.stub', app_path('Helpers/PaginationHelper.php'));
 
         // If --all is set, enable all options
+        // $createController = $this->option('controller') || $this->option('all');
+        // $createRequest = $this->option('request') || $this->option('all');
+        // $createMigration = $this->option('migration') || $this->option('all');
+        // $createSeeder = $this->option('seeder') || $this->option('all');
+        // $createFactory = $this->option('factory') || $this->option('all');
+        // $createResource = $this->option('resource') || $this->option('all');
+        
         $createController = $this->option('controller') || $this->option('all');
         $createRequest = $this->option('request') || $this->option('all');
         $createMigration = $this->option('migration') || $this->option('all');
@@ -44,6 +51,12 @@ class MakeApiModel extends Command
         $createFactory = $this->option('factory') || $this->option('all');
         $createResource = $this->option('resource') || $this->option('all');
 
+        // $createController = false;
+        // $createRequest = false;
+        // $createMigration = false;
+        // $createSeeder = false;
+        // $createFactory = false;
+        // $createResource = false;
         // Define paths
         $commandsDir = __DIR__;
         $stubPath = $commandsDir . '/../stubs/api/custom-model.api.stub';

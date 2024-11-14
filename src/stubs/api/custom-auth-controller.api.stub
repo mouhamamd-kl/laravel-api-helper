@@ -1,0 +1,156 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ rootNamespace }}Helpers\ApiResponse;
+use {{ rootNamespace }}Helpers\PaginationHelper;
+use {{ rootNamespace }}Http\Requests\{{ model }}Request;
+use {{ rootNamespace }}Http\Resources\{{ model }}Resource;
+use {{ namespacedModel }};
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $items = {{ model }}::latest()->paginate(10);
+        return PaginationHelper::paginateResponse($items, {{ model }}Resource::class, {{ model }}::class);
+    }
+
+    /**
+     * Display the latest items.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function latest()
+    {
+        $items = {{ model }}::latest()->take(2)->get();
+        $msg = $items->isEmpty() ? 'No {{ model }}s found' : 'Latest {{ model }}s retrieved successfully';
+        return ApiResponse::sendResponse(code: 200, msg: $msg, data: {{ model }}Resource::collection($items));
+    }
+
+    /**
+     * Display items by domain.
+     *
+     * @param  int  $domain_id
+     * @return \Illuminate\Http\Response
+     */
+    public function domain($domain_id)
+    {
+        $items = {{ model }}::where('domain_id', $domain_id)->get();
+        $msg = $items->isEmpty() ? 'No {{ model }}s found in domain' : '{{ model }}s retrieved successfully';
+        return ApiResponse::sendResponse(code: 200, msg: $msg, data: {{ model }}Resource::collection($items));
+    }
+
+    /**
+     * Search for items by title.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $user_id = $request->user()->id; // Missing semicolon here
+        $search = $request->input('search', null); // Optional search term
+
+        $items = {{ model }}::where('user_id', $user_id) // Ensure you are using the correct model
+            ->when($search, fn($query) => $query->where('title', 'like', '%' . $search . '%')) // Search functionality
+            ->latest() // Ordering by latest
+            ->paginate(10); // Pagination with 10 items per page
+
+        return PaginationHelper::paginateResponse($items, {{ model }}Resource::class, {{ model }}::class);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  {{ model }}Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{ model }}Request $request)
+    {
+        $data = $request->validated();
+        $data['user_id'] = $request->user()->id;
+        $item = {{ model }}::create($data);
+        return ApiResponse::sendResponse(
+            code: 201, 
+            msg: $item ? '{{ model }} created successfully' : 'Failed to create {{ model }}',
+            data: $item ? new {{ model }}Resource($item) : []
+        );
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $item = {{ model }}::find($id);
+        return ApiResponse::sendResponse(
+            code: $item ? 200 : 404,
+            msg: $item ? '{{ model }} retrieved successfully' : '{{ model }} not found',
+            data: $item ? new {{ model }}Resource($item) : []
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  {{ model }}Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{ model }}Request $request, $id)
+    {
+        $item = {{ model }}::find($id);
+        if (!$item) {
+            return ApiResponse::sendResponse(code: 404, msg: '{{ model }} not found', data: []);
+        }
+        
+        $this->authorize('update', $item);
+        $item->update($request->validated());
+        
+        return ApiResponse::sendResponse(code: 200, msg: '{{ model }} updated successfully', data: new {{ model }}Resource($item));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $item = {{ model }}::find($id);
+        if (!$item) {
+            return ApiResponse::sendResponse(code: 404, msg: '{{ model }} not found', data: []);
+        }
+        
+        $this->authorize('delete', $item);
+        $item->delete();
+        
+        return ApiResponse::sendResponse(code: 200, msg: '{{ model }} deleted successfully', data: []);
+    }
+
+    /**
+     * Display the authenticated user's items.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function myItems(Request $request)
+    {
+        $userItems = {{ model }}::where('user_id', $request->user()->id)->get();
+        $msg = $userItems->isEmpty() ? 'No {{ model }}s found' : 'User {{ model }}s retrieved successfully';
+        return ApiResponse::sendResponse(code: 200, msg: $msg, data: {{ model }}Resource::collection($userItems));
+    }
+}

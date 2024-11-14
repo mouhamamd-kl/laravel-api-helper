@@ -3,6 +3,7 @@
 namespace mouhammadKL\ApiHelper;
 
 use Illuminate\Support\ServiceProvider;
+use mouhammadKL\ApiHelper\Commands\MakeApiAuthResourceController;
 use mouhammadKL\ApiHelper\Commands\MakeApiController;
 use mouhammadKL\ApiHelper\Commands\MakePaginationHelper;
 use mouhammadKL\ApiHelper\Commands\MakeApiResponse;
@@ -32,6 +33,7 @@ class ApiHelperProvider extends ServiceProvider
                 MakeApiController::class,
                 MakeApiModel::class,
                 MakeApiRequest::class,
+                MakeApiAuthResourceController::class
             ]);
         }
         // Publish stubs for customization

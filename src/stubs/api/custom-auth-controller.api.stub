@@ -147,10 +147,10 @@ class {{ class }} extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function myItems(Request $request)
+    public function User_{{ model }}s(Request $request)
     {
-        $userItems = {{ model }}::where('user_id', $request->user()->id)->get();
-        $msg = $userItems->isEmpty() ? 'No {{ model }}s found' : 'User {{ model }}s retrieved successfully';
-        return ApiResponse::sendResponse(code: 200, msg: $msg, data: {{ model }}Resource::collection($userItems));
+        $user{{ model }} = {{ model }}::where('user_id', $request->user()->id)->get();
+        $msg = $user{{ model }}->isEmpty() ? 'No {{ model }}s found' : 'User {{ model }}s retrieved successfully';
+        return ApiResponse::sendResponse(code: 200, msg: $msg, data: {{ model }}Resource::collection($user{{ model }}));
     }
 }
